@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+            box-sizing: border-box;
+        }
+    </style>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.0.0/dist/phaser.min.js"></script>
+</head>
+
+<body>
+    <script>
+        const _w = 500,
+            _h = 400;
+
+        var config = {
+            type: Phaser.AUTO,
+            width: _w,
+            height: _h,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: {
+                        y: 200
+                    }
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create
+            }
+        };
+
+        var game = new Phaser.Game(config);
+
+        function preload() {
+            // Setting the source of assets files
+            this.load.setBaseURL('http://labs.phaser.io');
+
+            // Creating references for the files
+            this.load.image('sky', 'assets/skies/space3.png');
+            this.load.image('logo', 'assets/sprites/phaser3-logo.png');
+            this.load.image('red', 'assets/particles/red.png');
+        }
+
+        function create() {
+            this.add.image(_w / 2, _h / 2, 'sky');
+            var particles = this.add.particles('red');
+
+            var emitter = particles.createEmitter({
+                speed: 100,
+                scale: {
+                    start: 1,
+                    end: 0
+                },
+                blendMode: 'ADD'
+            });
+
+            var logo = this.physics.add.image(_w / 2, 0, 'logo')
+                .setVelocity(100, 100)
+                .setBounce(1, 1)
+                // Detects collision when conlided agains corners
+                .setCollideWorldBounds(true);
+            // Instructing to red light image to flow the logo movement
+            emitter.startFollow(logo);
+        }
+    </script>
+    <script src="jumping-star.js"></script>
+</body>
+
+</html>
