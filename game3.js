@@ -1,3 +1,4 @@
+// https://gamedevacademy.org/how-to-make-a-mario-style-platformer-with-phaser-3/
 (function() {
     const width = 800,
         height = 600;
@@ -25,7 +26,7 @@
     let _preload = function() {
         // Map made with Tiled in JSON format - 009
         this.load.tilemapTiledJSON('map', 'assets/map.json');
-        // Yiles in spritesheet 
+        // Tiles in spritesheet 
         this.load.spritesheet('tiles', 'assets/tiles.png', { frameWidth: 70, frameHeight: 70 });
         // simple coin image
         this.load.image('coin', 'assets/coinGold.png');
@@ -52,8 +53,8 @@
         this.physics.world.bounds.height = groundLayer.height;
 
         // Create the player sprite    
-        player = this.physics.add.sprite(200, 200, 'player');
-        player.setBounce(0.2); // Our player will bounce from items
+        player = this.physics.add.sprite(50, 300, 'player');
+        player.setBounce(0); // Our player will bounce from items
         player.setCollideWorldBounds(true); // Don't go out of the map
 
         this.physics.add.collider(groundLayer, player);
@@ -73,7 +74,7 @@
             key: 'walk', // key is the name of the animation
             // Adding walk frames
             frames: this.anims.generateFrameNames('player', { prefix: 'p1_walk', start: 1, end: 11, zeroPad: 2 }),
-            frameRate: 60,
+            frameRate: 20,
             repeat: -1 // -1 = loop this animation
         });
 
